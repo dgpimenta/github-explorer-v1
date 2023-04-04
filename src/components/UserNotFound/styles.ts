@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const EmptyListContainer = styled.div`
+export const UserNotFoundContainer = styled.div`
   color: ${(props) => props.theme['gray-100']};
 
   display: flex;

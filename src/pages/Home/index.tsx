@@ -15,6 +15,8 @@ import {
   HomeContainer,
   InputContainer,
 } from './styles'
+import { UserWithoutRepository } from '../../components/UserWithoutRepository'
+import { UserNotFound } from '../../components/UserNotFound'
 
 interface Repository {
   name: string
@@ -27,7 +29,7 @@ export function Home() {
 
   const [user, setUser] = useState('')
   const [newUser, setNewUser] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   const hasNoUser = user.length === 0
 
@@ -44,20 +46,18 @@ export function Home() {
 
     console.log(user)
 
-    try {
-      fetch(`https://api.github.com/users/${newUser}/repos`)
-        .then((response) => {
-          if (!response.ok) {
-            setError('Ai! Deu erro!')
-          } else {
-            setError('')
-          }
-          return response.json()
-        })
-        .then((data) => setRepositories(data))
-    } catch (err) {
-      console.log('ERRO')
-    }
+    fetch(`https://api.github.com/users/${newUser}/repos`)
+      .then((response) => {
+        if (!response.ok) {
+          throw Error('O usuário não existe!')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        setRepositories(data)
+        setError(null)
+      })
+      .catch((error) => setError(error.message))
 
     setUser(newUser)
     setNewUser('')
@@ -98,11 +98,17 @@ export function Home() {
         <EmptyList />
       ) : (
         <ul>
-          {repositories.map((repository) => {
-            return (
-              <RepositoryItem key={repository.name} repository={repository} />
+          {!error ? (
+            repositories.length === 0 ? (
+              <UserWithoutRepository />
+            ) : (
+              repositories.map((repository) => (
+                <RepositoryItem key={repository.name} repository={repository} />
+              ))
             )
-          })}
+          ) : (
+            <UserNotFound />
+          )}
         </ul>
       )}
     </HomeContainer>
