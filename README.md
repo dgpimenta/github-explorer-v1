@@ -39,7 +39,7 @@ Site que pesquisa os repositórios dos usuários no GitHub.
 
 ## 🔖 Layout
 
-Layout quando o usuário não existe ou existe, mas não possui nenhum repositório:
+Tela apresentada quando o usuário não existe ou quando não possui nenhum repositório:
 
 <br>
 
