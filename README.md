@@ -1,7 +1,7 @@
 <h1 align="center"> GitHub Explorer </h1>
 
 <p align="center">
-Página de pesquisa usuários com repositórios no GitHub.
+Página de pesquisa de usuários com repositórios no GitHub.
 </p>
 
 <br>
